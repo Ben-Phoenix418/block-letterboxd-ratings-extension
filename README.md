@@ -7,14 +7,15 @@ A tiny Firefox extension that hides the ratings UI on Letterboxd film pages
 - the **average rating number** shown to the right of it.
 
 Both live inside the `.rating-histogram` block that Letterboxd injects into the
-page, so a single CSS rule hides them.
+page. Instead of removing it, the extension covers it with a placeholder
+rectangle, so the page layout stays exactly the same.
 
 ## Layout
 
 ```
 manifest.json        Manifest V3 definition (content script + popup)
-src/block.css        The hiding rule, gated behind an <html> class
-src/content.js       Applies/removes that class from the stored setting
+src/block.css        The placeholder rectangle + reveal styles, gated behind an <html> class
+src/content.js       Applies/removes that class and reveals ratings on click
 popup/               Toolbar popup with an on/off checkbox
 icons/               Extension/toolbar icons (16/32/48/96/128 px)
 icon1000x1000.png    Master artwork the icons were scaled down from
@@ -34,11 +35,18 @@ the extension has to be signed (e.g. via addons.mozilla.org or `web-ext`).
 
 Click the toolbar icon to show a checkbox:
 
-- **Hide ratings** checked → the histogram and average rating are hidden.
+- **Hide ratings** checked → the ratings are covered by a placeholder rectangle.
 - Unchecked → everything is shown again.
 
 The setting is stored with `browser.storage.local` and applies immediately to
 open film pages, no reload needed.
+
+## Revealing the ratings
+
+While hidden, the ratings area shows a rounded rectangle (`#445566`) that
+lightens to `#778899` on hover. **Left-click it** and the rectangle disappears,
+showing the histogram and average rating for the current page view. The reveal
+is not stored, so a reload (or toggling the setting) starts hidden again.
 
 ## License
 

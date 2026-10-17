@@ -9,10 +9,43 @@
  *   - the star distribution bars (`.chart`)
  *   - the average rating number on the right (`.averagerating`)
  *
- * Hiding the container removes all of it in one rule. Because this is plain
- * CSS it also applies to the histogram that Letterboxd injects asynchronously
- * after the page loads.
+ * Instead of removing the block, we keep it in the document and cover it with
+ * a placeholder rectangle. The contents are hidden with `visibility` (not
+ * `display`) so the block keeps its exact size and the page layout doesn't
+ * shift. Clicking the rectangle adds `.blbr-revealed` (see content.js), which
+ * drops the placeholder and brings the real ratings back.
  */
+
 html.blbr-enabled .rating-histogram {
-  display: none !important;
+  position: relative;
+}
+
+html.blbr-enabled .rating-histogram :is(.stars, .chart, .averagerating) {
+  visibility: hidden;
+}
+
+/* The placeholder rectangle that sits where the ratings would be. */
+html.blbr-enabled .rating-histogram::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #445566;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+html.blbr-enabled .rating-histogram:hover::after {
+  background: #778899;
+}
+
+/* Revealed: the rectangle is gone and the real ratings show again. */
+html.blbr-enabled .rating-histogram.blbr-revealed::after {
+  content: none;
+}
+
+html.blbr-enabled
+  .rating-histogram.blbr-revealed
+  :is(.stars, .chart, .averagerating) {
+  visibility: visible;
 }
