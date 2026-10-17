@@ -1,0 +1,18 @@
+/*
+ * Block Letterboxd Ratings
+ *
+ * These rules only apply while the extension is enabled: content.js adds the
+ * `blbr-enabled` class to <html> based on the stored setting.
+ *
+ * `.rating-histogram` is the whole ratings block injected by Letterboxd:
+ *   - the star rows (`.stars`)
+ *   - the star distribution bars (`.chart`)
+ *   - the average rating number on the right (`.averagerating`)
+ *
+ * Hiding the container removes all of it in one rule. Because this is plain
+ * CSS it also applies to the histogram that Letterboxd injects asynchronously
+ * after the page loads.
+ */
+html.blbr-enabled .rating-histogram {
+  display: none !important;
+}

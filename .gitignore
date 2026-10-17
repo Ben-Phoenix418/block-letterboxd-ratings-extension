@@ -1,0 +1,14 @@
+# Tooling / build output
+node_modules/
+.web-ext-artifacts/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*:Zone.Identifier
+*.swp
+.idea/
+.vscode/
+
+# Local env
+.env
